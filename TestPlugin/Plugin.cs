@@ -32,11 +32,10 @@ namespace TestPlugin
 		#region Override
 		public override void Load(bool hotReload)
 		{
-			FilterManager filterManager = new FilterManager();
-			var filterCommandManager = filterManager.UseFilterManager(this);
+			FilterManager filterManager = new FilterManager(this);
 			var groupManager = filterManager.UseGroupManager(Assembly.GetExecutingAssembly());
 
-			filterCommandManager.UseFilterCommandManager()
+			filterManager.UseFilterCommandManager()
 				.AddCommandWithFilters("css_test", "description", new TestCommand1().Handler)
 				.AddGroup("TestFilters");
 		}

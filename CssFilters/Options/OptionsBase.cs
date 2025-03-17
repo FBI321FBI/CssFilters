@@ -21,7 +21,7 @@ namespace CssFilters.Options
 				}
 				return plugin;
 			}
-			private set
+			set
 			{
 				plugin = value;
 			}
@@ -52,22 +52,21 @@ namespace CssFilters.Options
 				filterLogger = value;
 			}
 		}
-        #endregion
+		#endregion
 
-        #region .ctor
-        public OptionsBase()
-        {
-			filterLogger = new FilterLogger();
-        }
-        #endregion
-
-        #region Public
-        public void SetPlugin(BasePlugin plugin)
+		#region .ctor
+		/// <summary>
+		/// Инициализирует <see cref="OptionsBase"/>.
+		/// </summary>
+		/// <param name="plugin">Плагин.</param>
+#pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Рассмотрите возможность добавления модификатора "required" или объявления значения, допускающего значение NULL.
+		public OptionsBase(BasePlugin plugin)
+#pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Рассмотрите возможность добавления модификатора "required" или объявления значения, допускающего значение NULL.
 		{
+			FilterLogger = new FilterLogger(this);
 			Plugin = plugin;
 			Logger = plugin.Logger;
-			FilterLogger.Prepare(this);
-		}
-		#endregion
+        }
+        #endregion
 	}
 }

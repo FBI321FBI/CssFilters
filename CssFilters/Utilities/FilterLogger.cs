@@ -3,6 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace CssFilters.Utilities
 {
+	/// <summary>
+	/// Логгер фильтров.
+	/// </summary>
 	public class FilterLogger
 	{
 		#region Properties
@@ -28,16 +31,17 @@ namespace CssFilters.Utilities
 		private ILogger? _logger => FilterOptionsBase.Logger;
 		#endregion
 
-		#region Public
+		#region .ctor
 		/// <summary>
-		/// Настраивает логгер.
+		/// Инициализирует <see cref="FilterLogger"/>.
 		/// </summary>
-		/// <param name="filterOptionsBase"></param>
-		public void Prepare(OptionsBase filterOptionsBase)
+		public FilterLogger(OptionsBase filterOptionsBase)
 		{
 			FilterOptionsBase = filterOptionsBase;
 		}
+		#endregion
 
+		#region Public
 		/// <summary>
 		/// Вывести информацию в консоль.
 		/// </summary>

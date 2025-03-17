@@ -1,4 +1,4 @@
-﻿namespace CssFilters.Interfaces
+﻿namespace CssFilters.Interface
 {
 	public interface IFilterManager
 	{

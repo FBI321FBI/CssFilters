@@ -2,34 +2,22 @@
 using CounterStrikeSharp.API.Modules.Commands;
 using CssFilters.CommandManager.Models;
 using CssFilters.CommandManager.Options;
-using CssFilters.Interfaces;
+using CssFilters.Models;
 
 namespace CssFilters.CommandManager
 {
-	public class FilterCommandManager : IFilterManager
+	public class FilterCommandManager : FilterManagerBase<FilterCommandManagerOptions>
 	{
 		#region Data
 		private BasePlugin _plugin => Options.Plugin;
 
 		private HashSet<CommandWithFilters> _commandsWithFilters = new HashSet<CommandWithFilters>();
-		public FilterManager FilterManager;
-		#endregion
-
-		#region Properties
-		private FilterCommandManagerOptions options = new();
-		public FilterCommandManagerOptions Options
-		{
-			get
-			{
-				return options;
-			}
-		}
 		#endregion
 
 		#region .ctor
 		public FilterCommandManager(FilterManager filterManager)
+			: base(filterManager)
 		{
-			FilterManager = filterManager;
 		}
 		#endregion
 
@@ -50,11 +38,11 @@ namespace CssFilters.CommandManager
 		}
 
 		/// <summary>
-		/// Изменяет настройки фильтров комманд.
+		/// Изменяет настройки фильтра.
 		/// </summary>
-		/// <param name="options">Настройки.</param>
+		/// <param name="options"></param>
 		/// <returns></returns>
-		public FilterCommandManager ChangeOptions(Action<FilterCommandManagerOptions> options)
+		public override FilterCommandManager ChangeOptions(Action<FilterCommandManagerOptions> options)
 		{
 			options(Options);
 			return this;

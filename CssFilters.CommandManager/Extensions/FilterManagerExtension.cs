@@ -7,15 +7,9 @@
 		/// </summary>
 		/// <param name="filterCommandManager"></param>
 		/// <returns></returns>
-		public static FilterCommandManager UseFilterCommandManager(this FilterManager filterCommandManager)
+		public static FilterCommandManager UseFilterCommandManager(this FilterManager filterManager)
 		{
-			var commandManager = new FilterCommandManager(filterCommandManager);
-			filterCommandManager.FilterManagers.Add(commandManager);
-			commandManager.ChangeOptions(o =>
-			{
-				o.SetPlugin(filterCommandManager.OptionsBase.Plugin);
-				o.FilterLogger = filterCommandManager.OptionsBase.FilterLogger;
-			});
+			var commandManager = new FilterCommandManager(filterManager);
 			return commandManager;
 		}
 	}

@@ -1,9 +1,13 @@
 ﻿using CounterStrikeSharp.API.Core;
-using CssFilters.Interfaces;
+using CssFilters.Interface;
+using CssFilters.Models;
 using CssFilters.Options;
 
 namespace CssFilters
 {
+	/// <summary>
+	/// Предоставляет менеджера по фильтрам.
+	/// </summary>
 	public class FilterManager
 	{
 		#region Data
@@ -11,7 +15,7 @@ namespace CssFilters
 		#endregion
 
 		#region Properties
-		private OptionsBase optionsBase = new();
+		private OptionsBase optionsBase;
 		public OptionsBase OptionsBase
 		{
 			get
@@ -21,15 +25,34 @@ namespace CssFilters
 		}
 		#endregion
 
+		#region .ctor
+		/// <summary>
+		/// Инициализирует экземпляр <see cref="FilterManager"/>
+		/// </summary>
+		public FilterManager(BasePlugin plugin)
+		{
+			optionsBase = new(plugin);
+		}
+		#endregion
+
 		#region Public
 		/// <summary>
-		/// Включить фильтрацию в плагин.
+		/// Возвращает настройки указанного фильтра.
 		/// </summary>
-		/// <param name="plugin">Текущий плагин.</param>
-		public FilterManager UseFilterManager(BasePlugin plugin)
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		/// <exception cref="InvalidOperationException"></exception>
+		public T GetOptions<T>()
 		{
-			OptionsBase.SetPlugin(plugin);
-			return this;
+			foreach (var filterManager in FilterManagers)
+			{
+				var filterManagerBase = filterManager as FilterManagerBase<OptionsBase>;
+				if(filterManagerBase?.Options is T filterManagerBaseOptions)
+				{
+					return filterManagerBaseOptions;
+				}
+			}
+			throw new InvalidOperationException($"Настройки {nameof(T)} не были найдены. Возможно фильтр не зарегистрирован, либо не наследуется от FilterManagerBase.");
 		}
 
 		/// <summary>

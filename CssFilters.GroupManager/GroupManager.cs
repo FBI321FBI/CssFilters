@@ -1,40 +1,23 @@
 ﻿using System.Reflection;
-using CounterStrikeSharp.API.Core;
 using CssFilters.CommandManager.Models;
 using CssFilters.GroupManager.Attributes;
 using CssFilters.GroupManager.Models;
 using CssFilters.GroupManager.Options;
-using CssFilters.Interfaces;
-using CssFilters.Utilities;
+using CssFilters.Models;
 
 namespace CssFilters.GroupManager
 {
-	public class GroupManager : IFilterManager
+	public class GroupManager : FilterManagerBase<GroupManagerOptions>
 	{
 		#region Data
-		private BasePlugin _plugin => Options.Plugin;
-		private FilterManager _filterManager;
-		private FilterLogger _filterLogger => Options.FilterLogger;
-
 		internal HashSet<GroupCommandsModel> GroupCommandsModels;
-		#endregion
-
-		#region Properties
-		private GroupManagerOptions options = new();
-		public GroupManagerOptions Options
-		{
-			get
-			{
-				return options;
-			}
-		}
 		#endregion
 
 		#region .ctor
 		public GroupManager(FilterManager filterManager)
+			: base(filterManager)
 		{
 			GroupCommandsModels = new HashSet<GroupCommandsModel>();
-			_filterManager = filterManager;
 		}
 		#endregion
 
@@ -61,7 +44,7 @@ namespace CssFilters.GroupManager
 		{
 			var groupCommandsModels = GroupCommandsModels.Where(x => groupNames.Contains(x.Name));
 
-			if(groupCommandsModels is null)
+			if (groupCommandsModels is null)
 			{
 				throw new ArgumentNullException("При добавлении команды в группы ни одна из групп не найдена.");
 			}
@@ -78,7 +61,7 @@ namespace CssFilters.GroupManager
 		/// </summary>
 		/// <param name="options">Настройки.</param>
 		/// <returns></returns>
-		public GroupManager ChangeOptions(Action<GroupManagerOptions> options)
+		public override GroupManager ChangeOptions(Action<GroupManagerOptions> options)
 		{
 			options(Options);
 			return this;
