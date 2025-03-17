@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using System.Reflection;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CssFilters;
 using CssFilters.Attributes;
@@ -24,48 +25,51 @@ namespace TestPlugin
 		#region .ctor
 		public Plugin()
 		{
-			_filterManager = new FilterManager();
+
 		}
 		#endregion
 
 		#region Override
 		public override void Load(bool hotReload)
 		{
-			_filterManager.UseFilterManager(this)
-				.UseGroupManager()
-				.AddGroupForCommands("TestGroup", new List<FilterCommandBase>
-				{
-					new TestCommandFilter(), new TestCommandFilter2()
-				});
+			FilterManager filterManager = new FilterManager();
+			var filterCommandManager = filterManager.UseFilterManager(this);
+			var groupManager = filterManager.UseGroupManager(Assembly.GetExecutingAssembly());
 
-			_filterManager.UseFilterCommandManager()
-				.AddCommandWithFilters("css_test", "Тестовая команда.", (p, i) =>
-				{
-					Console.WriteLine("Всем привет.");
-				});
+			filterCommandManager.UseFilterCommandManager()
+				.AddCommandWithFilters("css_test", "description", new TestCommand1().Handler)
+				.AddGroup("TestFilters");
 		}
 		#endregion
 	}
 
-	[GroupName("TestGroup")]
-	[FilterName("Filter1")]
-	public class TestCommandFilter : FilterCommandBase
+	public class TestCommand1
 	{
-		public override void Execute(CCSPlayerController? player, CommandInfo info)
+		public void Handler(CCSPlayerController? player, CommandInfo info)
 		{
-			Console.WriteLine("Фильтр1 запущен");
-			SetFilterResult(FilterResults.Next);
+			Console.WriteLine("Основаня команда выполнена успешно.");
 		}
 	}
 
-	[GroupName("TestGroup")]
-	[FilterName("Filter2")]
-	public class TestCommandFilter2 : FilterCommandBase
+	[GroupName("TestFilters")]
+	[FilterName("ФИЛЬТР НОМЕР АДИН")]
+	public class Filter1 : FilterCommandBase
 	{
 		public override void Execute(CCSPlayerController? player, CommandInfo info)
 		{
-			Console.WriteLine("Фильтр2 запущен.");
-			SetFilterResult(FilterResults.Next);
+			if (player is null)
+			{
+				SetFilterResult(FilterResults.Next);
+			}
+		}
+	}
+
+	[GroupName("TestFilters")]
+	public class Filter2 : FilterCommandBase
+	{
+		public override void Execute(CCSPlayerController? player, CommandInfo info)
+		{
+			
 		}
 	}
 }

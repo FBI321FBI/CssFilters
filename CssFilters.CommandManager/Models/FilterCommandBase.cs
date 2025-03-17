@@ -30,7 +30,7 @@ namespace CssFilters.CommandManager.Models
 				}
 				else
 				{
-					return filterContext;
+					return filterContext!;
 				}
 			}
 			private set
@@ -80,8 +80,13 @@ namespace CssFilters.CommandManager.Models
 		/// <returns></returns>
 		internal string? GetFilterName()
 		{
-			var filterNameAttribute = GetType().GetCustomAttributes(typeof(FilterNameAttribute), false).Last() as FilterNameAttribute;
-			return filterNameAttribute?.Name;
+			var attribute = GetType().GetCustomAttributes(typeof(FilterNameAttribute), false);
+			if (attribute.Any())
+			{
+				var filterNameAttribute = attribute.Last() as FilterNameAttribute;
+				return filterNameAttribute?.Name;
+			}
+			return null;
 		}
 		#endregion
 	}

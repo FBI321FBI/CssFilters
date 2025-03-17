@@ -57,10 +57,10 @@ namespace CssFilters.CommandManager.Models
 				switch (filterContext.FilterReult)
 				{
 					case FilterResults.Next:
-						_filterLogger.LogInforamtion($"Фильтр {filter.GetFilterName()} завершил работу с реузльтатом {FilterResults.Next}");
+						_filterLogger.LogInforamtion($"Фильтр {filter.GetFilterName() ?? filter.GetType().Name} завершил работу с реузльтатом {FilterResults.Next}");
 						continue;
 					case FilterResults.Stop:
-						_filterLogger.LogInforamtion($"Фильтр {filter.GetFilterName()} завершил работу с реузльтатом {FilterResults.Stop}");
+						_filterLogger.LogInforamtion($"Фильтр {filter.GetFilterName() ?? filter.GetType().Name} завершил работу с реузльтатом {FilterResults.Stop}");
 						return;
 				}
 			}
