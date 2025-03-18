@@ -45,7 +45,7 @@ namespace CssFilters.Utilities
 		/// <summary>
 		/// Вывести информацию в консоль.
 		/// </summary>
-		public void LogInforamtion(string message)
+		public void LogInformation(string message)
 		{
 			if (_logger is null) return;
 			_logger.LogInformation(message);

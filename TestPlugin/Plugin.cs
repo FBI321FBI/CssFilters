@@ -5,6 +5,7 @@ using CssFilters;
 using CssFilters.Attributes;
 using CssFilters.CommandManager.Extensions;
 using CssFilters.CommandManager.Models;
+using CssFilters.CommandManager.Options;
 using CssFilters.Enums;
 using CssFilters.GroupManager.Attributes;
 using CssFilters.GroupManager.Extensions;
@@ -36,6 +37,11 @@ namespace TestPlugin
 			var groupManager = filterManager.UseGroupManager(Assembly.GetExecutingAssembly());
 
 			filterManager.UseFilterCommandManager()
+				.ChangeOptions(o =>
+				{
+					o.ExecuteFilterMessage = "Фильр {0} выполнил работу с результатом {1}";
+					o.WhoCanExecuteMessage = new WhoCanExecuteMessage("Команда доступна только игрокам", "Команда доступна только серверу");
+				})
 				.AddCommandWithFilters("css_test", "description", new TestCommand1().Handler)
 				.AddGroup("TestFilters");
 		}
@@ -44,6 +50,7 @@ namespace TestPlugin
 
 	public class TestCommand1
 	{
+		[CommandHelper(minArgs: 1, usage: "О нет команда введена не правильно")]
 		public void Handler(CCSPlayerController? player, CommandInfo info)
 		{
 			Console.WriteLine("Основаня команда выполнена успешно.");
@@ -51,7 +58,7 @@ namespace TestPlugin
 	}
 
 	[GroupName("TestFilters")]
-	[FilterName("ФИЛЬТР НОМЕР АДИН")]
+	[FilterName("FilterF1")]
 	public class Filter1 : FilterCommandBase
 	{
 		public override void Execute(CCSPlayerController? player, CommandInfo info)
@@ -64,6 +71,7 @@ namespace TestPlugin
 	}
 
 	[GroupName("TestFilters")]
+	[FilterName("FilterF2")]
 	public class Filter2 : FilterCommandBase
 	{
 		public override void Execute(CCSPlayerController? player, CommandInfo info)
