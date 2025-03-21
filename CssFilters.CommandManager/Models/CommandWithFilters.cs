@@ -78,25 +78,13 @@ namespace CssFilters.CommandManager.Models
 
 		private bool CheckCsSharpCommandAttributes(CCSPlayerController? player, CommandInfo info)
 		{
-			var commandHelperAttribute = _mainCommandModel.Handler.GetType().GetCustomAttributes<CommandHelperAttribute>(false);
+			var commandHelperAttribute = _mainCommandModel.Handler.Method.GetCustomAttributes<CommandHelperAttribute>(false);
 			if (commandHelperAttribute.Any())
 			{
 				var minArgs = commandHelperAttribute.Last().MinArgs;
 				var usage = commandHelperAttribute.Last().Usage;
 				var whoCanExecute = commandHelperAttribute.Last().WhoCanExcecute;
 
-				if (minArgs < info.ArgCount - 1)
-				{
-					if (player != null)
-					{
-						player.PrintToChat(usage);
-					}
-					else
-					{
-						_options.Logger?.LogInformation(usage);
-					}
-					return false;
-				}
 
 				if (_options.WhoCanExecuteMessage != null)
 				{
@@ -111,6 +99,19 @@ namespace CssFilters.CommandManager.Models
 						player.PrintToChat(_options.WhoCanExecuteMessage.ClientMessage);
 						return false;
 					}
+				}
+
+				if (minArgs > info.ArgCount - 1)
+				{
+					if (player != null)
+					{
+						player.PrintToChat(usage);
+					}
+					else
+					{
+						_options.Logger?.LogInformation(usage);
+					}
+					return false;
 				}
 			}
 			return true;

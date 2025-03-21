@@ -50,7 +50,7 @@ namespace TestPlugin
 
 	public class TestCommand1
 	{
-		[CommandHelper(minArgs: 1, usage: "О нет команда введена не правильно")]
+		[CommandHelper(minArgs: 2, usage: "О нет команда введена не правильно", whoCanExecute: CommandUsage.CLIENT_ONLY)]
 		public void Handler(CCSPlayerController? player, CommandInfo info)
 		{
 			Console.WriteLine("Основаня команда выполнена успешно.");
