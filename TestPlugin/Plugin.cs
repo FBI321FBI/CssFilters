@@ -35,9 +35,7 @@ namespace TestPlugin
 		public override void Load(bool hotReload)
 		{
 			FilterManager filterManager = new FilterManager(this);
-			filterManager.UseFilterAttributeCssHelper();
 			var groupManager = filterManager.UseGroupManager(Assembly.GetExecutingAssembly());
-
 			filterManager.UseFilterCommandManager()
 				.ChangeOptions(o =>
 				{
@@ -46,13 +44,14 @@ namespace TestPlugin
 				})
 				.AddCommandWithFilters("css_test", "description", new TestCommand1().Handler)
 				.AddGroup("TestFilters");
+			filterManager.UseFilterAttributeCssHelper();
 		}
 		#endregion
 	}
 
 	public class TestCommand1
 	{
-		[CommandHelper(minArgs: 2, usage: "О нет команда введена не правильно", whoCanExecute: CommandUsage.CLIENT_ONLY)]
+		[CommandHelper(minArgs: 2, usage: "О нет команда введена не правильно", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
 		public void Handler(CCSPlayerController? player, CommandInfo info)
 		{
 			Console.WriteLine("Основаня команда выполнена успешно.");

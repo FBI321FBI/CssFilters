@@ -19,10 +19,9 @@ namespace CssFilters.AttrubuteCssHandler
 		#region Private
 		private void RegisterObservers()
 		{
-			var filterManager = FilterManager.FilterManagers.Where(x => x.GetType().Name == typeof(FilterCommandManager).Name).SingleOrDefault();
-			if (filterManager != null) 
+			var filterCommandManager = FilterManager.GetManager<FilterCommandManager>();
+			if (filterCommandManager != null) 
 			{
-				var filterCommandManager = (FilterCommandManager)filterManager;
 				var startExecutionFiltersSubject = filterCommandManager.GetSubject<StartExecutionFiltersSubject>();
 
 				startExecutionFiltersSubject?.Attach(new StartExecutionFiltersObserver(this));

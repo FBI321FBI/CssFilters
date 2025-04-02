@@ -1,8 +1,8 @@
 ﻿namespace CssFilters.CommandManager.Subjects
 {
-	internal class SubjectsRepository
+	public class SubjectsRepository
 	{
-		internal StartExecutionFiltersSubject StartExecutionFiltersSubject 
+		public StartExecutionFiltersSubject StartExecutionFiltersSubject 
 		{ 
 			get; 
 			init;

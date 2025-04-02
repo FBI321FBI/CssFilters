@@ -5,10 +5,7 @@ using CssFilters.CommandManager.Subjects;
 using CssFilters.CommandManager.Subjects.Messages;
 using CssFilters.Enums;
 using CssFilters.Enums.Observer;
-using CssFilters.Exceptions.Observer;
 using CssFilters.Utilities;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace CssFilters.CommandManager.Models
 {
@@ -101,58 +98,18 @@ namespace CssFilters.CommandManager.Models
 					switch (observerContextValue.ObserverRuslt)
 					{
 						case ObserverResult.Success:
-							observerContextValue.DoIfSuccess();
+							observerContextValue.DoIfSuccess.Invoke();
 							break;
 						case ObserverResult.Failure:
-							observerContextValue.DoIfFailure();
+							observerContextValue.DoIfFailure.Invoke();
 							result = false;
 							break;
 					}
+
 				}
 			}
 
 			return result;
-		}
-
-		private bool CheckCsSharpCommandAttributes(CCSPlayerController? player, CommandInfo info)
-		{
-			var commandHelperAttribute = _mainCommandModel.Handler.Method.GetCustomAttributes<CommandHelperAttribute>(false);
-			if (commandHelperAttribute.Any())
-			{
-				var minArgs = commandHelperAttribute.Last().MinArgs;
-				var usage = commandHelperAttribute.Last().Usage;
-				var whoCanExecute = commandHelperAttribute.Last().WhoCanExcecute;
-
-
-				if (_options.WhoCanExecuteMessage != null)
-				{
-					if (whoCanExecute == CommandUsage.CLIENT_ONLY && player == null)
-					{
-						_options.Logger?.LogInformation(_options.WhoCanExecuteMessage.ServerMessage);
-						return false;
-					}
-
-					if (whoCanExecute == CommandUsage.SERVER_ONLY && player != null)
-					{
-						player.PrintToChat(_options.WhoCanExecuteMessage.ClientMessage);
-						return false;
-					}
-				}
-
-				if (minArgs > info.ArgCount - 1)
-				{
-					if (player != null)
-					{
-						player.PrintToChat(usage);
-					}
-					else
-					{
-						_options.Logger?.LogInformation(usage);
-					}
-					return false;
-				}
-			}
-			return true;
 		}
 		#endregion
 	}

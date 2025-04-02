@@ -56,6 +56,23 @@ namespace CssFilters
 		}
 
 		/// <summary>
+		/// Возвращает указанного менеджера фильтров.
+		/// </summary>
+		/// <typeparam name="T">Менеджер.</typeparam>
+		/// <returns></returns>
+		public T? GetManager<T>()
+		{
+			foreach (var filterManager in FilterManagers)
+			{
+				if(filterManager is T)
+				{
+					return (T)filterManager;
+				}
+			}
+			return default(T);
+		}
+
+		/// <summary>
 		/// Изменяет базовые настройки фильтров.
 		/// </summary>
 		/// <param name="options">Настройки.</param>

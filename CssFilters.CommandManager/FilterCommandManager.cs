@@ -62,7 +62,7 @@ namespace CssFilters.CommandManager
 		/// <exception cref="InvalidOperationException"></exception>
 		public T? GetSubject<T>()
 		{
-			var propertyName = nameof(T);
+			var propertyName = typeof(T).Name;
 			var propertyInfo = _subjectsRepository.GetType().GetProperty(propertyName);
 			if (propertyInfo == null)
 			{
