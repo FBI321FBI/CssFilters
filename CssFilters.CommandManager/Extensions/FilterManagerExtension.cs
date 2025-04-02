@@ -5,7 +5,7 @@
 		/// <summary>
 		/// Добавляет возможность создавать команды с фильтрами.
 		/// </summary>
-		/// <param name="filterCommandManager"></param>
+		/// <param name="filterManager"></param>
 		/// <returns></returns>
 		public static FilterCommandManager UseFilterCommandManager(this FilterManager filterManager)
 		{

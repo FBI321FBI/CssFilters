@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CssFilters;
 using CssFilters.Attributes;
+using CssFilters.AttrubuteCssHandler.Extensions;
 using CssFilters.CommandManager.Extensions;
 using CssFilters.CommandManager.Models;
 using CssFilters.CommandManager.Options;
@@ -34,6 +35,7 @@ namespace TestPlugin
 		public override void Load(bool hotReload)
 		{
 			FilterManager filterManager = new FilterManager(this);
+			filterManager.UseFilterAttributeCssHelper();
 			var groupManager = filterManager.UseGroupManager(Assembly.GetExecutingAssembly());
 
 			filterManager.UseFilterCommandManager()

@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="CounterStrikeSharp.API" Version="1.0.315" />
-    <ProjectReference Include="..\CssFilters.AttrubuteCssHandler\CssFilters.FilterAttrubuteCssHelper.csproj" />
-    <ProjectReference Include="..\CssFilters.GroupManager\CssFilters.GroupManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CssFilters.CommandManager\CssFilters.CommandManager.csproj" />
     <ProjectReference Include="..\CssFilters\CssFilters.csproj" />
   </ItemGroup>
 

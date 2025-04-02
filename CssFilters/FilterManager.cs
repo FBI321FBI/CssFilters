@@ -37,9 +37,9 @@ namespace CssFilters
 
 		#region Public
 		/// <summary>
-		/// Возвращает настройки указанного фильтра.
+		/// Возвращает настройки фильтра.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="T">Класс настроек.</typeparam>
 		/// <returns></returns>
 		/// <exception cref="InvalidOperationException"></exception>
 		public T GetOptions<T>()

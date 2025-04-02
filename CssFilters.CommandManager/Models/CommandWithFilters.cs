@@ -1,10 +1,14 @@
-﻿using System.Reflection;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CssFilters.CommandManager.Options;
+using CssFilters.CommandManager.Subjects;
+using CssFilters.CommandManager.Subjects.Messages;
 using CssFilters.Enums;
+using CssFilters.Enums.Observer;
+using CssFilters.Exceptions.Observer;
 using CssFilters.Utilities;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace CssFilters.CommandManager.Models
 {
@@ -54,7 +58,8 @@ namespace CssFilters.CommandManager.Models
 		#region Private
 		private void Handler(CCSPlayerController? player, CommandInfo info)
 		{
-			if (!CheckCsSharpCommandAttributes(player, info)) return;
+			if (!StartExecutionFiltersSubject(_mainCommandModel, player, info)) return;
+
 			foreach (var filter in _filterCommands)
 			{
 				filter.Execute(player, info);
@@ -74,6 +79,39 @@ namespace CssFilters.CommandManager.Models
 			}
 			_mainCommandModel.Handler.Invoke(player, info);
 			_filterLogger.LogInformation($"Команда {_mainCommandModel.Name} была выполнена.");
+		}
+
+		private bool StartExecutionFiltersSubject(MainCommandModel mainCommand, CCSPlayerController? player, CommandInfo info)
+		{
+			var result = true;
+			var subject = FilterCommandManager.GetSubject<StartExecutionFiltersSubject>();
+			var observerContexts = subject?.Notify(
+				new StartExecutionFiltersMessage(
+					mainCommand.Name,
+					mainCommand.Description,
+					mainCommand.Handler,
+					player,
+					info,
+					FilterCommandManager));
+			if (observerContexts != null)
+			{
+				foreach (var observerContext in observerContexts)
+				{
+					var observerContextValue = observerContext.Value;
+					switch (observerContextValue.ObserverRuslt)
+					{
+						case ObserverResult.Success:
+							observerContextValue.DoIfSuccess();
+							break;
+						case ObserverResult.Failure:
+							observerContextValue.DoIfFailure();
+							result = false;
+							break;
+					}
+				}
+			}
+
+			return result;
 		}
 
 		private bool CheckCsSharpCommandAttributes(CCSPlayerController? player, CommandInfo info)
