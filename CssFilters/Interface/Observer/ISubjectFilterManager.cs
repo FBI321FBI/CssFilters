@@ -1,6 +1,4 @@
-﻿using CssFilters.Models.Observer;
-
-namespace CssFilters.Interface.Observer
+﻿namespace CssFilters.Interface.Observer
 {
 	public interface ISubjectFilterManager<T>
 	{
@@ -20,6 +18,6 @@ namespace CssFilters.Interface.Observer
 		/// Оповестить.
 		/// </summary>
 		/// <param name="message">Сообщение.</param>
-		Dictionary<string, ObserverContext> Notify(T message);
+		void Notify(T message);
 	}
 }

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CssFilters.GroupManager", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CssFilters.CommandManager", "CssFilters.CommandManager\CssFilters.CommandManager.csproj", "{C794D0FE-65F5-41AB-BFD8-97ADF5F0121D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CssFilters.FilterAttrubuteCssHelper", "CssFilters.AttrubuteCssHandler\CssFilters.FilterAttrubuteCssHelper.csproj", "{80B38D96-ABAE-407F-82F0-E4A2EA07B1D4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{C794D0FE-65F5-41AB-BFD8-97ADF5F0121D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C794D0FE-65F5-41AB-BFD8-97ADF5F0121D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C794D0FE-65F5-41AB-BFD8-97ADF5F0121D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80B38D96-ABAE-407F-82F0-E4A2EA07B1D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80B38D96-ABAE-407F-82F0-E4A2EA07B1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80B38D96-ABAE-407F-82F0-E4A2EA07B1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80B38D96-ABAE-407F-82F0-E4A2EA07B1D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

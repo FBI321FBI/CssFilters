@@ -2,7 +2,6 @@
 using CssFilters.CommandManager.Subjects.Messages;
 using CssFilters.Enums.Observer;
 using CssFilters.Interface.Observer;
-using CssFilters.Models.Observer;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
@@ -54,9 +53,9 @@ namespace CssFilters.AttrubuteCssHandler.Observers
 						observerContext.ObserverRuslt = ObserverResult.Failure;
 					}
 
-					if(minArgs > message.Info.ArgCount - 1)
+					if (minArgs > message.Info.ArgCount - 1)
 					{
-						if(player != null)
+						if (player != null)
 						{
 							player.PrintToChat(usage);
 						}

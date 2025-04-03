@@ -2,6 +2,9 @@
 {
 	public class SubjectsRepository
 	{
+		/// <summary>
+		/// Оповещает перед выполнением фильтров.
+		/// </summary>
 		public StartExecutionFiltersSubject StartExecutionFiltersSubject 
 		{ 
 			get; 

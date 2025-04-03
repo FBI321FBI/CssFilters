@@ -55,7 +55,7 @@ namespace CssFilters.CommandManager.Models
 		#region Private
 		private void Handler(CCSPlayerController? player, CommandInfo info)
 		{
-			if (!StartExecutionFiltersSubject(_mainCommandModel, player, info)) return;
+			//if (!StartExecutionFiltersSubject(_mainCommandModel, player, info)) return;
 
 			foreach (var filter in _filterCommands)
 			{
@@ -76,40 +76,6 @@ namespace CssFilters.CommandManager.Models
 			}
 			_mainCommandModel.Handler.Invoke(player, info);
 			_filterLogger.LogInformation($"Команда {_mainCommandModel.Name} была выполнена.");
-		}
-
-		private bool StartExecutionFiltersSubject(MainCommandModel mainCommand, CCSPlayerController? player, CommandInfo info)
-		{
-			var result = true;
-			var subject = FilterCommandManager.GetSubject<StartExecutionFiltersSubject>();
-			var observerContexts = subject?.Notify(
-				new StartExecutionFiltersMessage(
-					mainCommand.Name,
-					mainCommand.Description,
-					mainCommand.Handler,
-					player,
-					info,
-					FilterCommandManager));
-			if (observerContexts != null)
-			{
-				foreach (var observerContext in observerContexts)
-				{
-					var observerContextValue = observerContext.Value;
-					switch (observerContextValue.ObserverRuslt)
-					{
-						case ObserverResult.Success:
-							observerContextValue.DoIfSuccess.Invoke();
-							break;
-						case ObserverResult.Failure:
-							observerContextValue.DoIfFailure.Invoke();
-							result = false;
-							break;
-					}
-
-				}
-			}
-
-			return result;
 		}
 		#endregion
 	}

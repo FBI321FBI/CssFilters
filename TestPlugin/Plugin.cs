@@ -1,15 +1,14 @@
-﻿using System.Reflection;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CssFilters;
 using CssFilters.Attributes;
-using CssFilters.AttrubuteCssHandler.Extensions;
 using CssFilters.CommandManager.Extensions;
 using CssFilters.CommandManager.Models;
 using CssFilters.CommandManager.Options;
 using CssFilters.Enums;
 using CssFilters.GroupManager.Attributes;
 using CssFilters.GroupManager.Extensions;
+using System.Reflection;
 
 namespace TestPlugin
 {
@@ -44,7 +43,6 @@ namespace TestPlugin
 				})
 				.AddCommandWithFilters("css_test", "description", new TestCommand1().Handler)
 				.AddGroup("TestFilters");
-			filterManager.UseFilterAttributeCssHelper();
 		}
 		#endregion
 	}
@@ -77,7 +75,7 @@ namespace TestPlugin
 	{
 		public override void Execute(CCSPlayerController? player, CommandInfo info)
 		{
-			
+
 		}
 	}
 }
