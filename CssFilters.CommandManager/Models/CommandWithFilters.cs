@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using CssFilters.CommandManager.Helpers;
 using CssFilters.CommandManager.Options;
 using CssFilters.CommandManager.Subjects;
 using CssFilters.CommandManager.Subjects.Messages;
@@ -55,7 +56,13 @@ namespace CssFilters.CommandManager.Models
 		#region Private
 		private void Handler(CCSPlayerController? player, CommandInfo info)
 		{
-			//if (!StartExecutionFiltersSubject(_mainCommandModel, player, info)) return;
+			if (!CommandAttributesHelper.CommandValidate(
+										player, 
+										info, 
+										_mainCommandModel.Handler,
+										_options.WhoCanExecuteMessage?.ServerMessage,
+										_options.WhoCanExecuteMessage?.ClientMessage,
+										_options.Logger)) return;
 
 			foreach (var filter in _filterCommands)
 			{

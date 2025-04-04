@@ -28,7 +28,7 @@ namespace CssFilters.Utilities
 		#endregion
 
 		#region Data
-		private ILogger? _logger => FilterOptionsBase.Logger;
+		public ILogger? Logger => FilterOptionsBase.Logger;
 		#endregion
 
 		#region .ctor
@@ -47,8 +47,8 @@ namespace CssFilters.Utilities
 		/// </summary>
 		public void LogInformation(string message)
 		{
-			if (_logger is null) return;
-			_logger.LogInformation(message);
+			if (Logger is null) return;
+			Logger.LogInformation(message);
 		}
 
 		/// <summary>
@@ -57,8 +57,8 @@ namespace CssFilters.Utilities
 		/// <param name="message"></param>
 		public void LogWarning(string message)
 		{
-			if (_logger is null) return;
-			_logger.LogWarning(message);
+			if (Logger is null) return;
+			Logger.LogWarning(message);
 		}
 
 		/// <summary>
@@ -67,8 +67,8 @@ namespace CssFilters.Utilities
 		/// <param name="message"></param>
 		public void LogError(string message)
 		{
-			if (_logger is null) return;
-			_logger.LogError(message);
+			if (Logger is null) return;
+			Logger.LogError(message);
 		}
 		#endregion
 	}

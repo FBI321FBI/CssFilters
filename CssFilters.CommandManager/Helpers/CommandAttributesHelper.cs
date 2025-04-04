@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
-using CssFilters.CommandManager.Options;
-using CssFilters.Enums.Observer;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace CssFilters.CommandManager.Helpers
@@ -9,19 +8,20 @@ namespace CssFilters.CommandManager.Helpers
 	/// <summary>
 	/// Помощник по атрибутам, которые предназначены командам.
 	/// </summary>
-	public static class CommandAttributesHelepr
+	public static class CommandAttributesHelper
 	{
 		/// <summary>
 		/// Проверяет команду на валидность <see cref="CommandHelperAttribute"/>.
 		/// </summary>
 		/// <param name="player">Игрок.</param>
 		/// <param name="info"><see cref="CommandInfo"/>.</param>
-		public static void CommandValidate(
-			CCSPlayerController? player, 
-			CommandInfo info, 
+		public static bool CommandValidate(
+			CCSPlayerController? player,
+			CommandInfo info,
 			CommandInfo.CommandCallback handler,
-			string serverMessage,
-			string clientMessage)
+			string? serverMessage,
+			string? clientMessage,
+			ILogger? logger)
 		{
 			var commandHelperAttribute = handler.Method.GetCustomAttributes<CommandHelperAttribute>(false);
 			if (commandHelperAttribute.Any())
@@ -34,23 +34,17 @@ namespace CssFilters.CommandManager.Helpers
 				{
 					if (whoCanExecute == CommandUsage.CLIENT_ONLY && player == null)
 					{
-						observerContext.DoIfFailure = () =>
-						{
-							_attributeCssHandler.Options.Logger?.LogInformation(filterCommandManager.Options.WhoCanExecuteMessage.ServerMessage);
-						};
-						observerContext.ObserverRuslt = ObserverResult.Failure;
+						logger?.LogInformation(serverMessage);
+						return false;
 					}
 
 					if (whoCanExecute == CommandUsage.SERVER_ONLY && player != null)
 					{
-						observerContext.DoIfFailure = () =>
-						{
-							player.PrintToChat(filterCommandManager.Options.WhoCanExecuteMessage.ClientMessage);
-						};
-						observerContext.ObserverRuslt = ObserverResult.Failure;
+						player.PrintToChat(clientMessage);
+						return false;
 					}
 
-					if (minArgs > message.Info.ArgCount - 1)
+					if (minArgs > info.ArgCount - 1)
 					{
 						if (player != null)
 						{
@@ -58,12 +52,13 @@ namespace CssFilters.CommandManager.Helpers
 						}
 						else
 						{
-							_attributeCssHandler.Options.Logger?.LogInformation(usage);
+							logger?.LogInformation(usage);
 						}
-						observerContext.ObserverRuslt = ObserverResult.Failure;
+						return false;
 					}
 				}
 			}
+			return true;
 		}
 	}
 }
