@@ -23,7 +23,7 @@ namespace CssFilters.CommandManager
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Рассмотрите возможность добавления модификатора "required" или объявления значения, допускающего значение NULL.
 			: base(filterManager)
 		{
-			AddSubjectsRepository();
+			AddObservablesRepository();
 		}
 		#endregion
 
@@ -55,12 +55,12 @@ namespace CssFilters.CommandManager
 		}
 
 		/// <summary>
-		/// Получение субъекта.
+		/// Получение наблюдаемого.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
+		/// <typeparam name="T">Наблюдаемый.</typeparam>
+		/// <returns>Возвращает наблюдаемого.</returns>
 		/// <exception cref="InvalidOperationException"></exception>
-		public T? GetSubject<T>()
+		public T? GetObservable<T>()
 		{
 			var propertyName = typeof(T).Name;
 			var propertyInfo = _subjectsRepository.GetType().GetProperty(propertyName);
@@ -76,7 +76,7 @@ namespace CssFilters.CommandManager
 		#endregion
 
 		#region Private
-		private void AddSubjectsRepository()
+		private void AddObservablesRepository()
 		{
 			_subjectsRepository = new SubjectsRepository(
 				new StartExecutionFiltersSubject());
